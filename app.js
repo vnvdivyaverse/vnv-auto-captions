@@ -83,10 +83,10 @@ $("generateBtn").addEventListener("click", async () => {
   $("generateBtn").disabled = true;
   $("progressWrap").hidden = false;
   $("progressBar").style.width = "8%";
-  setStatus("Loading multilingual Whisper model…");
+  setStatus("Loading higher-accuracy multilingual Whisper Small model…");
   try {
     if (!recognizer) {
-      recognizer = await pipeline("automatic-speech-recognition", "Xenova/whisper-tiny", {
+      recognizer = await pipeline("automatic-speech-recognition", "Xenova/whisper-small", {
         progress_callback: p => {
           if (p.status) setStatus("Model: " + p.status + (p.progress ? ` ${Math.round(p.progress)}%` : ""));
         }
@@ -99,9 +99,9 @@ $("generateBtn").addEventListener("click", async () => {
     const mono = mixDown(decoded);
     const audio16k = resampleLinear(mono, decoded.sampleRate, 16000);
     $("progressBar").style.width = "45%";
-    setStatus("Transcribing. Longer videos can take several minutes…");
+    setStatus("Transcribing with the selected language. This model is larger and may take longer on this device…");
     const language = $("language").value;
-    const options = { chunk_length_s: 30, stride_length_s: 5, return_timestamps: true, task: "transcribe" };
+    const options = { chunk_length_s: 30, stride_length_s: 5, return_timestamps: "word", task: "transcribe" };
     if (language !== "auto") options.language = language === "te" ? "telugu" : "english";
     const result = await recognizer(audio16k, options);
     segments = (result.chunks || []).map(chunk => ({
