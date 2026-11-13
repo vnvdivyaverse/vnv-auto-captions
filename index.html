@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d19">
+  <meta name="description" content="Free browser-based Telugu and English auto captions with animated word highlighting.">
+  <title>VNV Auto Captions — Free Telugu & English Caption Studio</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="VNV Auto Captions home">
+        <span class="brand-mark">V</span>
+        <span><strong>VNV</strong><small>AUTO CAPTIONS</small></span>
+      </a>
+      <div class="topbar-right">
+        <span class="free-pill"><i></i> FREE • NO LOGIN</span>
+        <button class="icon-button" id="helpBtn" title="How it works" aria-label="How it works">?</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">YOUR VOICE. YOUR LANGUAGE. YOUR STORY.</div>
+          <h1>Make every word <span>stand out.</span></h1>
+          <p>Generate Telugu and English captions, style every word, and export your video — right in your browser.</p>
+        </div>
+        <div class="hero-chip"><span>✦</span> Made for creators</div>
+      </section>
+
+      <section class="workspace">
+        <aside class="left-column">
+          <section class="panel upload-panel">
+            <div class="panel-heading"><div><span class="step">01</span><h2>Import video</h2></div><span class="muted tiny">MP4 · MOV · WEBM</span></div>
+            <label class="dropzone" id="dropzone" for="videoFile">
+              <input id="videoFile" type="file" accept="video/*">
+              <span class="upload-icon">↑</span>
+              <strong>Drop your video here</strong>
+              <span>or <u>browse files</u></span>
+              <small>Video stays on your device</small>
+            </label>
+            <div class="field-grid">
+              <label>Video format
+                <select id="aspect">
+                  <option value="portrait">Shorts · 9:16</option>
+                  <option value="landscape">YouTube · 16:9</option>
+                </select>
+              </label>
+              <label>Speech language
+                <select id="language">
+                  <option value="auto">Auto detect · Telugu + English</option>
+                  <option value="te">Telugu</option>
+                  <option value="en">English</option>
+                </select>
+              </label>
+            </div>
+            <button class="button primary full" id="generateBtn" disabled><span>✦</span> Generate captions</button>
+            <p class="microcopy">First use downloads the multilingual AI model. An internet connection is required for that download.</p>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading"><div><span class="step">02</span><h2>Caption style</h2></div><span class="muted tiny">LIVE PREVIEW</span></div>
+            <label>Animation style</label>
+            <div class="style-options" id="styleOptions">
+              <button class="style-option selected" data-style="word"><span class="style-demo">ONE <b>WORD</b></span><small>Word highlight</small></button>
+              <button class="style-option" data-style="karaoke"><span class="style-demo karaoke-demo">KARAOKE</span><small>Karaoke sweep</small></button>
+              <button class="style-option" data-style="plain"><span class="style-demo">Sentence</span><small>Clean captions</small></button>
+            </div>
+            <div class="field-grid">
+              <label>Highlight colour
+                <select id="highlightColor">
+                  <option value="#ffe36e">Sunshine yellow</option>
+                  <option value="#75f0b2">Mint green</option>
+                  <option value="#65d9ff">Electric blue</option>
+                  <option value="#ff91d2">Rose pink</option>
+                  <option value="#ffffff">White</option>
+                </select>
+              </label>
+              <label>Text size
+                <select id="textSize"><option value="small">Small</option><option value="medium" selected>Medium</option><option value="large">Large</option></select>
+              </label>
+            </div>
+            <div class="field-grid">
+              <label>Caption position
+                <select id="captionPosition"><option value="bottom">Bottom</option><option value="middle">Middle</option><option value="top">Top</option></select>
+              </label>
+              <label>Text background
+                <select id="textBackground"><option value="outline">Black outline</option><option value="box">Dark label</option><option value="none">No background</option></select>
+              </label>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading"><div><span class="step">03</span><h2>Edit transcript</h2></div><span class="muted tiny">START | END | TEXT</span></div>
+            <textarea id="transcript" spellcheck="false" placeholder="Your generated captions will appear here.
+
+Edit any line using:
+0.00|2.50|మీ తెలుగు వాయిస్ ఓవర్"></textarea>
+            <div class="button-row">
+              <button class="button secondary" id="applyBtn">Apply edits</button>
+              <button class="button ghost" id="srtBtn">Download SRT</button>
+              <button class="button ghost" id="vttBtn">Download VTT</button>
+            </div>
+            <p class="microcopy">Review Telugu spelling and timings. Word highlighting is estimated evenly within each recognized phrase.</p>
+          </section>
+        </aside>
+
+        <section class="right-column">
+          <section class="panel preview-panel">
+            <div class="panel-heading"><div><span class="step">PREVIEW</span><h2>Your video</h2></div><span class="live-label"><i></i> LIVE</span></div>
+            <div class="video-stage" id="videoStage">
+              <video id="video" controls playsinline></video>
+              <div class="empty-state" id="emptyState"><div class="empty-play">▶</div><strong>Your preview appears here</strong><span>Upload a video to get started</span></div>
+              <div id="captionOverlay" class="caption-overlay"></div>
+            </div>
+            <div class="video-meta"><span id="fileName">No video selected</span><span id="videoDuration">—</span></div>
+          </section>
+
+          <section class="panel export-panel">
+            <div class="panel-heading"><div><span class="step">04</span><h2>Export video</h2></div><span class="muted tiny">NO WATERMARK</span></div>
+            <div class="export-choice">
+              <div class="export-icon">⇩</div>
+              <div><strong>Burn captions into video</strong><small>Download a share-ready WebM video</small></div>
+              <span class="format-tag">WEBM</span>
+            </div>
+            <button class="button primary full" id="exportBtn" disabled>Export captioned video <span>↗</span></button>
+            <div class="progress-wrap" id="progressWrap" hidden><div class="progress-track"><div id="progressBar"></div></div><small id="progressText">Preparing export…</small></div>
+            <p class="microcopy">Export records playback in real time. Keep this tab open until the download finishes. Chrome supports WebM recording; MP4 export is not included in this version.</p>
+          </section>
+
+          <section class="panel segments-panel">
+            <div class="panel-heading"><div><span class="step">CAPTIONS</span><h2>Caption segments</h2></div><span class="count-badge" id="segmentCount">0</span></div>
+            <div id="segmentsList" class="segments-list"><div class="empty-list">Your caption segments will be listed here.</div></div>
+          </section>
+        </section>
+      </section>
+      <section class="privacy-note"><span>🔒</span><div><strong>Private by design</strong><p>Your video is processed locally in your browser. It is not uploaded to a VNV server. The AI model is downloaded from a public model CDN when needed.</p></div></section>
+    </main>
+    <footer><span>© 2026 VNV Auto Captions</span><span>Free creator tool · Built for Telugu & English</span></footer>
+  </div>
+
+  <dialog id="helpDialog">
+    <div class="dialog-head"><h2>How VNV Auto Captions works</h2><button id="closeHelp" class="icon-button">×</button></div>
+    <ol>
+      <li>Upload a video containing Telugu, English, or mixed speech.</li>
+      <li>Choose Auto detect or select one language, then generate captions.</li>
+      <li>Review the transcript and edit text or timings in the editor.</li>
+      <li>Choose the caption style, colour, size and position.</li>
+      <li>Export the video. Keep the tab open while it records playback.</li>
+    </ol>
+    <p class="dialog-note">The first transcription downloads the Whisper Tiny multilingual model. Recognition quality and speed depend on your device, audio clarity and available memory. Word highlighting is estimated within each phrase, not exact forced alignment.</p>
+  </dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
